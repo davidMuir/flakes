@@ -1,0 +1,14 @@
+# Secrets in secrets/ are encrypted for two age keys:
+# - david: the personal key, also used by ~/src/k8s. Private key in ~/.config/sops/age/keys.txt
+#   and 1Password. Used to edit secrets from any machine.
+# - each host's own key. Private key in /var/lib/sops-nix/key.txt on that host and in 1Password,
+#   so a reinstalled host can decrypt its secrets on its first rebuild.
+keys:
+  - &david age1ra9styaqxx3qmq28kzfrspgu9azkgjl08z28hd8yvw6rt0pk6edsxevcxj
+  - &home-pc age1k0052ugh99zxsamlje4c8ek7tw5vvg7xzxddwn04uury7tmgavjsryl9kf
+creation_rules:
+  - path_regex: ^secrets/home-pc\.yaml$
+    key_groups:
+      - age:
+          - *david
+          - *home-pc
