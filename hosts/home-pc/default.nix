@@ -203,6 +203,19 @@ in
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
 
+  # Builds main from GitHub nightly but only makes it the boot default, so nothing changes under
+  # a running session; the update applies on the next reboot. Missed runs (PC off) happen at the
+  # next boot.
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:davidMuir/flakes#home-pc";
+    flags = [ "--print-build-logs" ];
+    operation = "boot";
+    dates = "04:00";
+    randomizedDelaySec = "30min";
+    persistent = true;
+  };
+
   # Decrypted with this host's own age key, which isn't in git. On a fresh install, copy it from
   # 1Password to this path before the first rebuild: with mutableUsers = false, david has no
   # password until the secret below can be decrypted.

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/London",
+  "nix": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Update flake inputs only through the weekly lockFileMaintenance PR (a single `nix flake update`), not one PR per input. This also keeps nixpkgs-k8s-node-1 where it is: its URL pins a rev, and the node is upgraded by hand (see the cluster README in ~/src/k8s).",
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest", "pin", "pinDigest", "bump", "replacement", "rollback"],
+      "enabled": false
+    }
+  ]
+}

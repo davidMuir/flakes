@@ -23,6 +23,7 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./hosts/home-pc
+        ./modules/common.nix
         sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
@@ -38,13 +39,18 @@
     nixosConfigurations.unifi-controller = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
+        # No autoUpgrade here either; see the note in hosts/unifi-controller.
         ./hosts/unifi-controller
+        ./modules/common.nix
       ];
     };
     nixosConfigurations.k8s-node-1 = nixpkgs-k8s-node-1.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
+        # No autoUpgrade here: each deploy restarts k3s, so it's upgraded by hand (see the cluster
+        # README in ~/src/k8s).
         ./hosts/k8s-node-1
+        ./modules/common.nix
       ];
     };
   };
