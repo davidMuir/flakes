@@ -3,10 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    # k8s-node-1's OS is pinned to the nixpkgs it was deployed with. Its k3s comes from `nixpkgs`
-    # instead, by explicit minor version (k3s_1_xx) in hosts/k8s-node-1, so `nix flake update` only
-    # moves it to a newer patch release. See the cluster README in ~/src/k8s.
+    # k8s-node-1's OS is pinned to the nixpkgs it was deployed with. Its k3s comes from
+    # `nixpkgs-k3s` instead, by explicit minor version (k3s_1_xx) in hosts/k8s-node-1, so updating
+    # the lock only moves it to a newer patch release. It's a separate input from `nixpkgs` so k3s
+    # patches can be taken without moving home-pc and unifi-controller too. See the cluster README
+    # in ~/src/k8s.
     nixpkgs-k8s-node-1.url = "github:nixos/nixpkgs/1306659b587dc277866c7b69eb97e5f07864d8c4";
+    nixpkgs-k3s.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # Decrypts secrets/ at activation. See .sops.yaml for which keys can read what.

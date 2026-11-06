@@ -1,10 +1,10 @@
 { config, pkgs, inputs, ... }:
 
 let
-  # k3s comes from the main nixpkgs input, so it can be upgraded without moving the rest of the
-  # node off its pinned nixpkgs. Bump one minor version at a time (see the cluster README in
-  # ~/src/k8s).
-  k3sPkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+  # k3s comes from its own nixpkgs-k3s input, so it can be upgraded without moving the rest of
+  # the node off its pinned nixpkgs, or moving the other hosts. Bump one minor version at a time
+  # (see the cluster README in ~/src/k8s).
+  k3sPkgs = inputs.nixpkgs-k3s.legacyPackages.x86_64-linux;
 in
 {
   imports =
